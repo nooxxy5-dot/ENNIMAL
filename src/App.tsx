@@ -432,10 +432,10 @@ function Hero() {
 
   return (
     <section className="min-h-screen w-full pt-24 md:pt-32 pb-24 md:pb-32 px-6 md:px-16 flex items-center justify-center">
-      <div className="w-full h-[60vh] md:h-[75vh] overflow-hidden bg-black flex items-center justify-center">
+      <div className="w-full h-[60vh] md:h-[75vh] overflow-hidden bg-transparent flex items-center justify-center">
         <img 
           src={displayImage} 
-          className="w-full h-full object-cover" 
+          className="w-full h-full object-contain" 
           alt="N.NIMAL Hero" 
           referrerPolicy="no-referrer"
         />
