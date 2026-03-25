@@ -10,7 +10,7 @@ import { db, auth } from './firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, User, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useStore, Product, CommunityItem, NewsItem, AboutContent } from './store';
-import { ShoppingBag, Search, X, Plus, Minus, Trash2, LogIn, LogOut, Settings, Package, CreditCard, Upload } from 'lucide-react';
+import { ShoppingBag, Search, X, Plus, Minus, Trash2, LogIn, LogOut, Settings, Package, CreditCard, Upload, Menu } from 'lucide-react';
 
 function Landing() {
   const navigate = useNavigate();
@@ -48,6 +48,7 @@ function Landing() {
 
 function Navbar({ user }: { user: User | null }) {
   const [clickCount, setClickCount] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { setCartOpen, setAdminModalOpen, cart, isAdminAuthenticated } = useStore();
   const navigate = useNavigate();
@@ -86,48 +87,77 @@ function Navbar({ user }: { user: User | null }) {
   const cartItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <nav className="w-full px-8 md:px-16 py-10 flex justify-between items-center bg-transparent absolute top-0 z-50">
-      <div 
-        onClick={handleLogoClick}
-        className="font-headline text-sm tracking-[0.15em] text-[#1a1c1b] cursor-pointer select-none"
-      >
-        N.NIMAL
-      </div>
-      <div className="hidden md:flex space-x-16 text-[9px] font-body tracking-[0.25em] uppercase text-[#777777]">
-        <button onClick={() => navigate('/catalog')} className="hover:text-[#1a1c1b] transition-colors duration-500">Catalog</button>
-        <button onClick={() => navigate('/community')} className="hover:text-[#1a1c1b] transition-colors duration-500">Community</button>
-        <button onClick={() => navigate('/news')} className="hover:text-[#1a1c1b] transition-colors duration-500">News</button>
-        <button onClick={() => navigate('/about')} className="hover:text-[#1a1c1b] transition-colors duration-500">About</button>
-      </div>
-      <div className="flex space-x-6 text-[#1a1c1b] items-center">
-        {user ? (
-          <button onClick={handleLogout} className="text-[10px] uppercase tracking-widest flex items-center gap-2 hover:opacity-40 transition-opacity duration-500">
-            <LogOut size={14} />
-            <span className="hidden md:inline">Logout</span>
+    <>
+      <nav className="w-full px-6 md:px-16 py-6 md:py-10 flex justify-between items-center bg-transparent absolute top-0 z-50">
+        <div className="flex items-center gap-4">
+          <button className="md:hidden text-[#1a1c1b]" onClick={() => setMobileMenuOpen(true)}>
+            <Menu size={20} />
           </button>
-        ) : (
-          <button onClick={handleLogin} className="text-[10px] uppercase tracking-widest flex items-center gap-2 hover:opacity-40 transition-opacity duration-500">
-            <LogIn size={14} />
-            <span className="hidden md:inline">Login</span>
-          </button>
-        )}
-        
-        {isAdminAuthenticated && location.pathname !== '/admin' && (
-          <button onClick={() => navigate('/admin')} className="hover:opacity-40 transition-opacity duration-500">
-            <Settings size={16} />
-          </button>
-        )}
-
-        <button onClick={() => setCartOpen(true)} className="relative hover:opacity-40 transition-opacity duration-500">
-          <ShoppingBag size={16} />
-          {cartItemsCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-[#1a1c1b] text-white text-[8px] w-4 h-4 flex items-center justify-center rounded-full">
-              {cartItemsCount}
-            </span>
+          <div 
+            onClick={handleLogoClick}
+            className="font-headline text-sm tracking-[0.15em] text-[#1a1c1b] cursor-pointer select-none"
+          >
+            N.NIMAL
+          </div>
+        </div>
+        <div className="hidden md:flex space-x-16 text-[9px] font-body tracking-[0.25em] uppercase text-[#777777]">
+          <button onClick={() => navigate('/catalog')} className="hover:text-[#1a1c1b] transition-colors duration-500">Catalog</button>
+          <button onClick={() => navigate('/community')} className="hover:text-[#1a1c1b] transition-colors duration-500">Community</button>
+          <button onClick={() => navigate('/news')} className="hover:text-[#1a1c1b] transition-colors duration-500">News</button>
+          <button onClick={() => navigate('/about')} className="hover:text-[#1a1c1b] transition-colors duration-500">About</button>
+        </div>
+        <div className="flex space-x-4 md:space-x-6 text-[#1a1c1b] items-center">
+          {user ? (
+            <button onClick={handleLogout} className="text-[10px] uppercase tracking-widest flex items-center gap-2 hover:opacity-40 transition-opacity duration-500">
+              <LogOut size={14} />
+              <span className="hidden md:inline">Logout</span>
+            </button>
+          ) : (
+            <button onClick={handleLogin} className="text-[10px] uppercase tracking-widest flex items-center gap-2 hover:opacity-40 transition-opacity duration-500">
+              <LogIn size={14} />
+              <span className="hidden md:inline">Login</span>
+            </button>
           )}
-        </button>
-      </div>
-    </nav>
+          
+          {isAdminAuthenticated && location.pathname !== '/admin' && (
+            <button onClick={() => navigate('/admin')} className="hover:opacity-40 transition-opacity duration-500">
+              <Settings size={16} />
+            </button>
+          )}
+
+          <button onClick={() => setCartOpen(true)} className="relative hover:opacity-40 transition-opacity duration-500">
+            <ShoppingBag size={16} />
+            {cartItemsCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-[#1a1c1b] text-white text-[8px] w-4 h-4 flex items-center justify-center rounded-full">
+                {cartItemsCount}
+              </span>
+            )}
+          </button>
+        </div>
+      </nav>
+
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[100] bg-white flex flex-col pt-24 px-8"
+          >
+            <button className="absolute top-6 left-6 text-[#1a1c1b]" onClick={() => setMobileMenuOpen(false)}>
+              <X size={24} />
+            </button>
+            <div className="flex flex-col space-y-8 text-[12px] font-body tracking-[0.25em] uppercase text-[#1a1c1b] mt-8">
+              <button onClick={() => { setMobileMenuOpen(false); navigate('/catalog'); }} className="text-left border-b border-gray-100 pb-4">Catalog</button>
+              <button onClick={() => { setMobileMenuOpen(false); navigate('/community'); }} className="text-left border-b border-gray-100 pb-4">Community</button>
+              <button onClick={() => { setMobileMenuOpen(false); navigate('/news'); }} className="text-left border-b border-gray-100 pb-4">News</button>
+              <button onClick={() => { setMobileMenuOpen(false); navigate('/about'); }} className="text-left border-b border-gray-100 pb-4">About</button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -401,8 +431,8 @@ function Hero() {
   const displayImage = heroImageUrl || defaultHeroImage;
 
   return (
-    <section className="min-h-screen w-full pt-32 pb-32 px-8 md:px-16 flex items-center justify-center">
-      <div className="w-full h-[75vh] overflow-hidden bg-black flex items-center justify-center">
+    <section className="min-h-screen w-full pt-24 md:pt-32 pb-24 md:pb-32 px-6 md:px-16 flex items-center justify-center">
+      <div className="w-full h-[60vh] md:h-[75vh] overflow-hidden bg-black flex items-center justify-center">
         <img 
           src={displayImage} 
           className="w-full h-full object-cover" 
@@ -416,8 +446,8 @@ function Hero() {
 
 function IntroText() {
   return (
-    <section className="w-full py-32 px-8 md:px-16 flex flex-col items-center justify-center text-center bg-[#f9f9f7]">
-      <h2 className="font-headline text-2xl tracking-[0.2em] mb-16">N.NIMAL</h2>
+    <section className="w-full py-24 md:py-32 px-6 md:px-16 flex flex-col items-center justify-center text-center bg-[#f9f9f7]">
+      <h2 className="font-headline text-2xl tracking-[0.2em] mb-12 md:mb-16">N.NIMAL</h2>
       <div className="font-body text-[10px] md:text-[11px] tracking-[0.2em] leading-[2.5] text-[#444444] uppercase max-w-2xl mx-auto space-y-8">
         <p>
           N.NIMAL is a study in silence.<br/>
@@ -455,8 +485,8 @@ function Community() {
   }, []);
 
   return (
-    <section id="community" className="w-full py-40 px-8 md:px-16 bg-[#f9f9f7]">
-      <div className="flex justify-between items-end mb-20">
+    <section id="community" className="w-full py-24 md:py-40 px-6 md:px-16 bg-[#f9f9f7]">
+      <div className="flex justify-between items-end mb-12 md:mb-20">
         <h2 className="text-[9px] font-body tracking-[0.3em] uppercase text-[#777777]">Community</h2>
       </div>
       {items.length === 0 ? (
@@ -549,8 +579,8 @@ function NewsPage({ user }: { user: User | null }) {
       className="w-full min-h-screen bg-[#f9f9f7] text-[#1a1c1b] flex flex-col"
     >
       <Navbar user={user} />
-      <div className="flex-1 pt-40 px-8 md:px-16 max-w-4xl mx-auto w-full">
-        <div className="text-center mb-20">
+      <div className="flex-1 pt-32 md:pt-40 px-6 md:px-16 max-w-4xl mx-auto w-full">
+        <div className="text-center mb-12 md:mb-20">
           <h1 className="font-headline text-3xl tracking-[0.1em] uppercase mb-4">Blog Toko</h1>
           <p className="text-[12px] font-body tracking-[0.1em] text-[#777777]">Temukan event, kabar terbaru, dan promosi terbaru di sini!</p>
         </div>
@@ -605,7 +635,7 @@ function AboutPage({ user }: { user: User | null }) {
       className="w-full min-h-screen bg-[#f9f9f7] text-[#1a1c1b] flex flex-col"
     >
       <Navbar user={user} />
-      <div className="flex-1 pt-32 pb-40 px-8 md:px-16 max-w-6xl mx-auto w-full flex flex-col items-center text-center">
+      <div className="flex-1 pt-24 md:pt-32 pb-24 md:pb-40 px-6 md:px-16 max-w-6xl mx-auto w-full flex flex-col items-center text-center">
         {aboutContent?.imageUrl && (
           <div className="w-full aspect-video md:aspect-[21/9] mb-20 overflow-hidden">
             <img src={aboutContent.imageUrl} alt="About N.NIMAL" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
@@ -643,8 +673,8 @@ function Products() {
   }, []);
 
   return (
-    <section id="catalog" className="w-full pt-48 pb-32 px-8 md:px-16 bg-white min-h-screen">
-      <div className="flex justify-between items-end mb-20">
+    <section id="catalog" className="w-full pt-32 md:pt-48 pb-24 md:pb-32 px-6 md:px-16 bg-white min-h-screen">
+      <div className="flex justify-between items-end mb-12 md:mb-20">
         <h2 className="text-[9px] font-body tracking-[0.3em] uppercase text-[#777777]">Catalog</h2>
         <button onClick={() => navigate('/home')} className="text-[9px] font-body tracking-[0.3em] uppercase text-[#777777] hover:text-[#1a1c1b] transition-colors flex items-center gap-2">
           &larr; Back to Home
@@ -750,8 +780,8 @@ function Products() {
 
 function Footer() {
   return (
-    <footer className="w-full bg-[#424436] text-white pt-24 pb-8 px-8 md:px-16">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
+    <footer className="w-full bg-[#424436] text-white pt-16 md:pt-24 pb-8 px-6 md:px-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 mb-16 md:mb-24">
         <div className="col-span-1">
           <h2 className="font-headline text-3xl tracking-[0.1em] mb-8 uppercase font-bold">N.NIMAL</h2>
           <div className="space-y-6 text-[11px] font-body tracking-[0.1em] leading-[2] text-[#e0e0e0]">
@@ -1031,8 +1061,8 @@ function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-[#f9f9f7] text-[#1a1c1b] flex flex-col">
-      <div className="flex-1 p-8 md:p-16 max-w-6xl mx-auto w-full">
-        <div className="flex justify-between items-center mb-16">
+      <div className="flex-1 p-6 md:p-16 max-w-6xl mx-auto w-full">
+        <div className="flex justify-between items-center mb-12 md:mb-16">
           <h1 className="font-headline text-3xl tracking-[0.15em]">Admin Dashboard</h1>
           <button onClick={() => navigate('/home')} className="text-[10px] uppercase tracking-widest hover:opacity-50">
             Back to Site
@@ -1473,7 +1503,7 @@ function Account({ user }: { user: User | null }) {
       className="w-full min-h-screen bg-[#f4f4f2] text-[#1a1c1b] flex flex-col"
     >
       <Navbar user={user} />
-      <div className="flex-1 max-w-5xl mx-auto w-full px-8 md:px-16 pt-32 pb-20">
+      <div className="flex-1 max-w-5xl mx-auto w-full px-6 md:px-16 pt-24 md:pt-32 pb-20">
         <h1 className="text-3xl font-bold mb-8">Akun Saya</h1>
 
         {!user && (
@@ -1589,8 +1619,8 @@ function ProductDetail({ user }: { user: User | null }) {
       className="w-full min-h-screen bg-white text-[#1a1c1b] flex flex-col"
     >
       <Navbar user={user} />
-      <div className="flex-1 max-w-7xl mx-auto w-full px-8 md:px-16 pt-32 pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+      <div className="flex-1 max-w-7xl mx-auto w-full px-6 md:px-16 pt-24 md:pt-32 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
           <div className="w-full aspect-[3/4] bg-[#f4f4f2]">
             <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover grayscale-[0.1]" />
           </div>
@@ -1687,7 +1717,7 @@ function Login() {
       className="w-full min-h-screen bg-[#f9f9f7] text-[#1a1c1b] flex flex-col"
     >
       <Navbar user={null} />
-      <div className="flex-1 flex items-center justify-center px-8 py-32">
+      <div className="flex-1 flex items-center justify-center px-6 md:px-8 py-24 md:py-32">
         <div className="w-full max-w-md bg-white p-8 md:p-12 shadow-sm">
           <h1 className="text-2xl font-bold mb-8 text-center">{isLogin ? 'Masuk' : 'Daftar'}</h1>
           
