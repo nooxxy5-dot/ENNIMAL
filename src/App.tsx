@@ -143,6 +143,19 @@ function AdminModal() {
     setLoading(true);
     setError('');
     
+    if (!auth.currentUser) {
+      setError('Please login with Google first using the Login button in the menu.');
+      setLoading(false);
+      return;
+    }
+
+    const allowedEmails = ['admin@nnimal.com', 'nazhmizaidan05@gmail.com', 'nooxxy5@gmail.com'];
+    if (!auth.currentUser.email || !allowedEmails.includes(auth.currentUser.email)) {
+      setError('Your Google account is not authorized as an admin.');
+      setLoading(false);
+      return;
+    }
+
     setTimeout(() => {
       if (password === 'admin123') {
         setAdminAuthenticated(true);
@@ -875,97 +888,143 @@ function AdminDashboard() {
 
   const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
-    const productData = {
-      name: productFormData.name,
-      description: productFormData.description,
-      price: Number(productFormData.price),
-      imageUrl: productFormData.imageUrl,
-      createdAt: new Date().toISOString()
-    };
+    try {
+      const numericPrice = Number(productFormData.price.replace(/\./g, ''));
+      const productData = {
+        name: productFormData.name,
+        description: productFormData.description,
+        price: numericPrice,
+        imageUrl: productFormData.imageUrl,
+        createdAt: new Date().toISOString()
+      };
 
-    if (editingProduct) {
-      await updateDoc(doc(db, 'products', editingProduct.id), productData);
-    } else {
-      await addDoc(collection(db, 'products'), productData);
+      if (editingProduct) {
+        await updateDoc(doc(db, 'products', editingProduct.id), productData);
+      } else {
+        await addDoc(collection(db, 'products'), productData);
+      }
+
+      setProductFormData({ name: '', description: '', price: '', imageUrl: '' });
+      setEditingProduct(null);
+      alert('Product saved successfully!');
+    } catch (error: any) {
+      console.error('Error saving product:', error);
+      alert('Failed to save product: ' + error.message);
     }
-
-    setProductFormData({ name: '', description: '', price: '', imageUrl: '' });
-    setEditingProduct(null);
   };
 
   const handleDeleteProduct = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
-      await deleteDoc(doc(db, 'products', id));
+      try {
+        await deleteDoc(doc(db, 'products', id));
+      } catch (error: any) {
+        alert('Failed to delete product: ' + error.message);
+      }
     }
   };
 
   const handleSaveCommunity = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = {
-      title: communityFormData.title,
-      excerpt: communityFormData.excerpt,
-      imageUrl: communityFormData.imageUrl,
-      order: Number(communityFormData.order)
-    };
+    try {
+      const data = {
+        title: communityFormData.title,
+        excerpt: communityFormData.excerpt,
+        imageUrl: communityFormData.imageUrl,
+        order: Number(communityFormData.order)
+      };
 
-    if (editingCommunity) {
-      await updateDoc(doc(db, 'community', editingCommunity.id), data);
-    } else {
-      await addDoc(collection(db, 'community'), data);
+      if (editingCommunity) {
+        await updateDoc(doc(db, 'community', editingCommunity.id), data);
+      } else {
+        await addDoc(collection(db, 'community'), data);
+      }
+
+      setCommunityFormData({ title: '', excerpt: '', imageUrl: '', order: '0' });
+      setEditingCommunity(null);
+      alert('Community item saved successfully!');
+    } catch (error: any) {
+      console.error('Error saving community:', error);
+      alert('Failed to save community item: ' + error.message);
     }
-
-    setCommunityFormData({ title: '', excerpt: '', imageUrl: '', order: '0' });
-    setEditingCommunity(null);
   };
 
   const handleDeleteCommunity = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this community item?')) {
-      await deleteDoc(doc(db, 'community', id));
+      try {
+        await deleteDoc(doc(db, 'community', id));
+      } catch (error: any) {
+        alert('Failed to delete community item: ' + error.message);
+      }
     }
   };
 
   const handleSaveNews = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = {
-      date: newsFormData.date,
-      title: newsFormData.title,
-      excerpt: newsFormData.excerpt,
-      order: Number(newsFormData.order)
-    };
+    try {
+      const data = {
+        date: newsFormData.date,
+        title: newsFormData.title,
+        excerpt: newsFormData.excerpt,
+        order: Number(newsFormData.order)
+      };
 
-    if (editingNews) {
-      await updateDoc(doc(db, 'news', editingNews.id), data);
-    } else {
-      await addDoc(collection(db, 'news'), data);
+      if (editingNews) {
+        await updateDoc(doc(db, 'news', editingNews.id), data);
+      } else {
+        await addDoc(collection(db, 'news'), data);
+      }
+
+      setNewsFormData({ date: '', title: '', excerpt: '', order: '0' });
+      setEditingNews(null);
+      alert('News item saved successfully!');
+    } catch (error: any) {
+      console.error('Error saving news:', error);
+      alert('Failed to save news item: ' + error.message);
     }
-
-    setNewsFormData({ date: '', title: '', excerpt: '', order: '0' });
-    setEditingNews(null);
   };
 
   const handleDeleteNews = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this news item?')) {
-      await deleteDoc(doc(db, 'news', id));
+      try {
+        await deleteDoc(doc(db, 'news', id));
+      } catch (error: any) {
+        alert('Failed to delete news item: ' + error.message);
+      }
     }
   };
 
   const handleSaveAbout = async (e: React.FormEvent) => {
     e.preventDefault();
-    const paragraphs = aboutFormData.paragraphs.split('\n\n').filter(p => p.trim() !== '');
-    await setDoc(doc(db, 'about', 'main'), { paragraphs, imageUrl: aboutFormData.imageUrl });
-    alert('About content saved successfully');
+    try {
+      const paragraphs = aboutFormData.paragraphs.split('\n\n').filter(p => p.trim() !== '');
+      await setDoc(doc(db, 'about', 'main'), { paragraphs, imageUrl: aboutFormData.imageUrl });
+      alert('About content saved successfully');
+    } catch (error: any) {
+      console.error('Error saving about:', error);
+      alert('Failed to save about content: ' + error.message);
+    }
   };
 
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
-    await setDoc(doc(db, 'settings', 'payment'), paymentSettings);
-    alert('Settings saved successfully');
+    try {
+      await setDoc(doc(db, 'settings', 'payment'), paymentSettings);
+      alert('Settings saved successfully');
+    } catch (error: any) {
+      console.error('Error saving settings:', error);
+      alert('Failed to save settings: ' + error.message);
+    }
   };
 
   const handleSaveHero = async (e: React.FormEvent) => {
     e.preventDefault();
-    await setDoc(doc(db, 'settings', 'hero'), { imageUrl: heroFormData.imageUrl });
-    alert('Hero banner saved successfully');
+    try {
+      await setDoc(doc(db, 'settings', 'hero'), { imageUrl: heroFormData.imageUrl });
+      alert('Hero banner saved successfully');
+    } catch (error: any) {
+      console.error('Error saving hero:', error);
+      alert('Failed to save hero banner: ' + error.message);
+    }
   };
 
   if (!isAdminAuthenticated) return null;
@@ -1061,7 +1120,11 @@ function AdminDashboard() {
                 </div>
                 <div>
                   <label className="block text-[10px] uppercase tracking-widest text-[#777777] mb-2">Price (Rp)</label>
-                  <input required type="number" value={productFormData.price} onChange={e => setProductFormData({...productFormData, price: e.target.value})} className="w-full border-b border-[#1a1c1b] py-2 focus:outline-none bg-transparent" />
+                  <input required type="text" value={productFormData.price} onChange={e => {
+                    const rawValue = e.target.value.replace(/\./g, '').replace(/[^0-9]/g, '');
+                    const formattedValue = rawValue ? Number(rawValue).toLocaleString('id-ID') : '';
+                    setProductFormData({...productFormData, price: formattedValue});
+                  }} className="w-full border-b border-[#1a1c1b] py-2 focus:outline-none bg-transparent" placeholder="e.g. 300.000" />
                 </div>
                 <div>
                   <label className="block text-[10px] uppercase tracking-widest text-[#777777] mb-2">Image URL</label>
@@ -1093,7 +1156,7 @@ function AdminDashboard() {
                         <button 
                           onClick={() => {
                             setEditingProduct(product);
-                            setProductFormData({ name: product.name, description: product.description, price: product.price.toString(), imageUrl: product.imageUrl });
+                            setProductFormData({ name: product.name, description: product.description, price: product.price.toLocaleString('id-ID'), imageUrl: product.imageUrl });
                           }} 
                           className="text-[10px] uppercase tracking-widest text-blue-600 hover:underline"
                         >
