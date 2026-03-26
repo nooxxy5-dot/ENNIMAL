@@ -20,27 +20,34 @@ function Landing() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1.5, ease: "easeInOut" }}
-      className="min-h-screen w-full bg-[#f9f9f7] flex flex-col relative"
+      className="min-h-screen w-full bg-white flex flex-col relative"
     >
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <div className="mb-8 border border-[#1a1c1b] px-4 py-1.5 text-[9px] font-body tracking-[0.3em] uppercase text-[#1a1c1b]">
-          ennimal inside.
+      <div className="flex-1 flex flex-col items-center justify-center px-6">
+        <div className="mb-6 border border-[#1a1c1b] px-8 py-4 md:px-12 md:py-6 flex items-center justify-center">
+          <h1 className="font-body text-3xl md:text-5xl tracking-[0.2em] text-[#1a1c1b] font-light uppercase">
+            ENNIMAL INSIDE
+          </h1>
         </div>
-        <h1 className="font-headline text-6xl md:text-8xl tracking-[0.1em] text-[#1a1c1b] font-light">
-          N.NIMAL
-        </h1>
-        <p className="mt-6 text-[10px] md:text-[11px] font-body tracking-[0.3em] text-[#777777] uppercase">
-          welcome to ennimal state.
+        <p className="text-[16px] md:text-[20px] font-body tracking-[0.15em] text-[#1a1c1b] capitalize">
+          Cute But Dead Inside
         </p>
       </div>
       
+      <div className="absolute bottom-32 left-0 right-0 flex justify-center">
+        <p className="text-[10px] md:text-[11px] font-body tracking-[0.3em] text-[#1a1c1b] uppercase text-center px-4">
+          welcome to ennimal state.
+        </p>
+      </div>
+
       <div className="absolute bottom-16 left-0 right-0 flex justify-center">
-        <button 
+        <motion.button 
           onClick={() => navigate('/home')}
+          animate={{ opacity: [0.3, 1, 0.3] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           className="text-[10px] font-body tracking-[0.4em] text-[#1a1c1b] hover:opacity-40 transition-opacity duration-700 uppercase"
         >
           Explore Here
-        </button>
+        </motion.button>
       </div>
     </motion.div>
   );
@@ -95,12 +102,12 @@ function Navbar({ user }: { user: User | null }) {
           </button>
           <div 
             onClick={handleLogoClick}
-            className="font-headline text-sm tracking-[0.15em] text-[#1a1c1b] cursor-pointer select-none"
+            className="font-body text-sm tracking-[0.15em] text-[#1a1c1b] cursor-pointer select-none uppercase"
           >
-            N.NIMAL
+            ENNIMAL INSIDE
           </div>
         </div>
-        <div className="hidden md:flex space-x-16 text-[9px] font-body tracking-[0.25em] uppercase text-[#777777]">
+        <div className="hidden md:flex space-x-16 text-[12px] font-body tracking-[0.25em] uppercase text-[#777777]">
           <button onClick={() => navigate('/catalog')} className="hover:text-[#1a1c1b] transition-colors duration-500">Catalog</button>
           <button onClick={() => navigate('/community')} className="hover:text-[#1a1c1b] transition-colors duration-500">Community</button>
           <button onClick={() => navigate('/news')} className="hover:text-[#1a1c1b] transition-colors duration-500">News</button>
@@ -148,7 +155,7 @@ function Navbar({ user }: { user: User | null }) {
             <button className="absolute top-6 left-6 text-[#1a1c1b]" onClick={() => setMobileMenuOpen(false)}>
               <X size={24} />
             </button>
-            <div className="flex flex-col space-y-8 text-[12px] font-body tracking-[0.25em] uppercase text-[#1a1c1b] mt-8">
+            <div className="flex flex-col space-y-8 text-[14px] font-body tracking-[0.25em] uppercase text-[#1a1c1b] mt-8">
               <button onClick={() => { setMobileMenuOpen(false); navigate('/catalog'); }} className="text-left border-b border-gray-100 pb-4">Catalog</button>
               <button onClick={() => { setMobileMenuOpen(false); navigate('/community'); }} className="text-left border-b border-gray-100 pb-4">Community</button>
               <button onClick={() => { setMobileMenuOpen(false); navigate('/news'); }} className="text-left border-b border-gray-100 pb-4">News</button>
@@ -436,7 +443,7 @@ function Hero() {
         <img 
           src={displayImage} 
           className="w-full h-full object-contain" 
-          alt="N.NIMAL Hero" 
+          alt="ENNIMAL INSIDE Hero" 
           referrerPolicy="no-referrer"
         />
       </div>
@@ -447,10 +454,10 @@ function Hero() {
 function IntroText() {
   return (
     <section className="w-full py-24 md:py-32 px-6 md:px-16 flex flex-col items-center justify-center text-center bg-[#f9f9f7]">
-      <h2 className="font-headline text-2xl tracking-[0.2em] mb-12 md:mb-16">N.NIMAL</h2>
+      <h2 className="font-body text-2xl tracking-[0.2em] mb-12 md:mb-16 uppercase">ENNIMAL INSIDE</h2>
       <div className="font-body text-[10px] md:text-[11px] tracking-[0.2em] leading-[2.5] text-[#444444] uppercase max-w-2xl mx-auto space-y-8">
         <p>
-          N.NIMAL is a study in silence.<br/>
+          ENNIMAL INSIDE is a study in silence.<br/>
           A reflection of the in-between—<br/>
           not fully instinct, not fully aware.
         </p>
@@ -521,7 +528,6 @@ function Community() {
                       <p className="text-[11px] font-body tracking-[0.15em] leading-[2] text-[#777777] uppercase">
                         {item.excerpt}
                       </p>
-                      <button className="text-[9px] font-body tracking-[0.3em] uppercase border-b border-[#1a1c1b] text-[#1a1c1b] self-start pb-1 hover:opacity-50 transition-opacity">Read Article</button>
                     </div>
                   </>
                 ) : (
@@ -531,7 +537,6 @@ function Community() {
                       <p className="text-[11px] font-body tracking-[0.15em] leading-[2] text-[#777777] uppercase">
                         {item.excerpt}
                       </p>
-                      <button className="text-[9px] font-body tracking-[0.3em] uppercase border-b border-[#1a1c1b] text-[#1a1c1b] self-start pb-1 hover:opacity-50 transition-opacity">Read Article</button>
                     </div>
                     {item.imageUrl ? (
                       <div className="aspect-[4/5] overflow-hidden bg-[#f4f4f2] order-1 md:order-2">
@@ -638,7 +643,7 @@ function AboutPage({ user }: { user: User | null }) {
       <div className="flex-1 pt-24 md:pt-32 pb-24 md:pb-40 px-6 md:px-16 max-w-6xl mx-auto w-full flex flex-col items-center text-center">
         {aboutContent?.imageUrl && (
           <div className="w-full aspect-video md:aspect-[21/9] mb-20 overflow-hidden">
-            <img src={aboutContent.imageUrl} alt="About N.NIMAL" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            <img src={aboutContent.imageUrl} alt="About ENNIMAL INSIDE" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
           </div>
         )}
         <div className="max-w-3xl">
@@ -648,6 +653,19 @@ function AboutPage({ user }: { user: User | null }) {
             ))}
             {(!aboutContent?.paragraphs || aboutContent.paragraphs.length === 0) && (
               <p className="opacity-50 italic">About content has not been set up yet.</p>
+            )}
+            
+            {aboutContent?.articleUrl && (
+              <div className="pt-12">
+                <a 
+                  href={aboutContent.articleUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="inline-block text-[10px] font-body tracking-[0.3em] uppercase border-b border-[#1a1c1b] text-[#1a1c1b] pb-1 hover:opacity-50 transition-opacity"
+                >
+                  Read Article
+                </a>
+              </div>
             )}
           </div>
         </div>
@@ -661,15 +679,30 @@ function AboutPage({ user }: { user: User | null }) {
 
 function Products() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [filterSettings, setFilterSettings] = useState({ 
+    productTypes: 'T-Shirts, Hoodies, Accessories', 
+    availabilities: 'In Stock, Out of Stock', 
+    priceRanges: 'Rp 0 - Rp 650.000, Rp 650.000 - Rp 1.500.000, Rp 1.500.000+' 
+  });
   const { addToCart } = useStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'products'), (snapshot) => {
+    const unsubscribeProducts = onSnapshot(collection(db, 'products'), (snapshot) => {
       const prods = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
       setProducts(prods);
     });
-    return () => unsubscribe();
+
+    const unsubscribeFilters = onSnapshot(doc(db, 'settings', 'filters'), (docSnap) => {
+      if (docSnap.exists()) {
+        setFilterSettings(docSnap.data() as any);
+      }
+    });
+
+    return () => {
+      unsubscribeProducts();
+      unsubscribeFilters();
+    };
   }, []);
 
   return (
@@ -687,50 +720,36 @@ function Products() {
           <div>
             <h3 className="text-[10px] font-body tracking-[0.2em] uppercase text-[#1a1c1b] mb-6">Product Type</h3>
             <div className="space-y-4">
-              <label className="flex items-center space-x-3 cursor-pointer group">
-                <input type="checkbox" className="appearance-none w-3 h-3 border border-[#1a1c1b] checked:bg-[#1a1c1b] transition-colors" />
-                <span className="text-[9px] font-body tracking-[0.15em] uppercase text-[#777777] group-hover:text-[#1a1c1b] transition-colors">T-Shirts</span>
-              </label>
-              <label className="flex items-center space-x-3 cursor-pointer group">
-                <input type="checkbox" className="appearance-none w-3 h-3 border border-[#1a1c1b] checked:bg-[#1a1c1b] transition-colors" />
-                <span className="text-[9px] font-body tracking-[0.15em] uppercase text-[#777777] group-hover:text-[#1a1c1b] transition-colors">Hoodies</span>
-              </label>
-              <label className="flex items-center space-x-3 cursor-pointer group">
-                <input type="checkbox" className="appearance-none w-3 h-3 border border-[#1a1c1b] checked:bg-[#1a1c1b] transition-colors" />
-                <span className="text-[9px] font-body tracking-[0.15em] uppercase text-[#777777] group-hover:text-[#1a1c1b] transition-colors">Accessories</span>
-              </label>
+              {filterSettings.productTypes.split(',').map(type => type.trim()).filter(Boolean).map((type, index) => (
+                <label key={index} className="flex items-center space-x-3 cursor-pointer group">
+                  <input type="checkbox" className="appearance-none w-3 h-3 border border-[#1a1c1b] checked:bg-[#1a1c1b] transition-colors" />
+                  <span className="text-[9px] font-body tracking-[0.15em] uppercase text-[#777777] group-hover:text-[#1a1c1b] transition-colors">{type}</span>
+                </label>
+              ))}
             </div>
           </div>
 
           <div>
             <h3 className="text-[10px] font-body tracking-[0.2em] uppercase text-[#1a1c1b] mb-6">Availability</h3>
             <div className="space-y-4">
-              <label className="flex items-center space-x-3 cursor-pointer group">
-                <input type="checkbox" className="appearance-none w-3 h-3 border border-[#1a1c1b] checked:bg-[#1a1c1b] transition-colors" />
-                <span className="text-[9px] font-body tracking-[0.15em] uppercase text-[#777777] group-hover:text-[#1a1c1b] transition-colors">In Stock</span>
-              </label>
-              <label className="flex items-center space-x-3 cursor-pointer group">
-                <input type="checkbox" className="appearance-none w-3 h-3 border border-[#1a1c1b] checked:bg-[#1a1c1b] transition-colors" />
-                <span className="text-[9px] font-body tracking-[0.15em] uppercase text-[#777777] group-hover:text-[#1a1c1b] transition-colors">Out of Stock</span>
-              </label>
+              {filterSettings.availabilities.split(',').map(avail => avail.trim()).filter(Boolean).map((avail, index) => (
+                <label key={index} className="flex items-center space-x-3 cursor-pointer group">
+                  <input type="checkbox" className="appearance-none w-3 h-3 border border-[#1a1c1b] checked:bg-[#1a1c1b] transition-colors" />
+                  <span className="text-[9px] font-body tracking-[0.15em] uppercase text-[#777777] group-hover:text-[#1a1c1b] transition-colors">{avail}</span>
+                </label>
+              ))}
             </div>
           </div>
 
           <div>
             <h3 className="text-[10px] font-body tracking-[0.2em] uppercase text-[#1a1c1b] mb-6">Price</h3>
             <div className="space-y-4">
-              <label className="flex items-center space-x-3 cursor-pointer group">
-                <input type="checkbox" className="appearance-none w-3 h-3 border border-[#1a1c1b] checked:bg-[#1a1c1b] transition-colors" />
-                <span className="text-[9px] font-body tracking-[0.15em] uppercase text-[#777777] group-hover:text-[#1a1c1b] transition-colors">Rp 0 - Rp 650.000</span>
-              </label>
-              <label className="flex items-center space-x-3 cursor-pointer group">
-                <input type="checkbox" className="appearance-none w-3 h-3 border border-[#1a1c1b] checked:bg-[#1a1c1b] transition-colors" />
-                <span className="text-[9px] font-body tracking-[0.15em] uppercase text-[#777777] group-hover:text-[#1a1c1b] transition-colors">Rp 650.000 - Rp 1.500.000</span>
-              </label>
-              <label className="flex items-center space-x-3 cursor-pointer group">
-                <input type="checkbox" className="appearance-none w-3 h-3 border border-[#1a1c1b] checked:bg-[#1a1c1b] transition-colors" />
-                <span className="text-[9px] font-body tracking-[0.15em] uppercase text-[#777777] group-hover:text-[#1a1c1b] transition-colors">Rp 1.500.000+</span>
-              </label>
+              {filterSettings.priceRanges.split(',').map(price => price.trim()).filter(Boolean).map((price, index) => (
+                <label key={index} className="flex items-center space-x-3 cursor-pointer group">
+                  <input type="checkbox" className="appearance-none w-3 h-3 border border-[#1a1c1b] checked:bg-[#1a1c1b] transition-colors" />
+                  <span className="text-[9px] font-body tracking-[0.15em] uppercase text-[#777777] group-hover:text-[#1a1c1b] transition-colors">{price}</span>
+                </label>
+              ))}
             </div>
           </div>
         </div>
@@ -783,10 +802,10 @@ function Footer() {
     <footer className="w-full bg-[#424436] text-white pt-16 md:pt-24 pb-8 px-6 md:px-16">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 mb-16 md:mb-24">
         <div className="col-span-1">
-          <h2 className="font-headline text-3xl tracking-[0.1em] mb-8 uppercase font-bold">N.NIMAL</h2>
+          <h2 className="font-body text-3xl tracking-[0.1em] mb-8 uppercase font-bold">ENNIMAL INSIDE</h2>
           <div className="space-y-6 text-[11px] font-body tracking-[0.1em] leading-[2] text-[#e0e0e0]">
             <p>
-              N.NIMAL is a study in silence.<br />
+              <span className="lowercase">ennimal inside</span> is a study in silence.<br />
               A reflection of the in-between—<br />
               not fully instinct, not fully aware.
             </p>
@@ -828,7 +847,7 @@ function Footer() {
       </div>
       
       <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-        <p className="text-[8px] font-body tracking-[0.3em] uppercase text-[#a0a0a0]">© 2026 N.NIMAL. All rights reserved.</p>
+        <p className="text-[8px] font-body tracking-[0.3em] uppercase text-[#a0a0a0]">© 2026 ENNIMAL INSIDE. All rights reserved.</p>
         <div className="flex space-x-8 text-[8px] font-body tracking-[0.3em] uppercase text-[#a0a0a0]">
           <button onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Privacy Policy</button>
           <button onClick={(e) => e.preventDefault()} className="hover:text-white transition-colors">Terms of Service</button>
@@ -841,12 +860,17 @@ function Footer() {
 function AdminDashboard() {
   const navigate = useNavigate();
   const { isAdminAuthenticated } = useStore();
-  const [activeTab, setActiveTab] = useState<'hero' | 'products' | 'community' | 'news' | 'about' | 'settings'>('hero');
+  const [activeTab, setActiveTab] = useState<'hero' | 'products' | 'community' | 'news' | 'about' | 'settings' | 'filters'>('hero');
   const [products, setProducts] = useState<Product[]>([]);
   const [communityItems, setCommunityItems] = useState<CommunityItem[]>([]);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [aboutContent, setAboutContent] = useState<AboutContent>({ id: 'main', paragraphs: [] });
   const [paymentSettings, setPaymentSettings] = useState({ bcaAccount: '', mandiriAccount: '', qrisImageUrl: '' });
+  const [filterSettings, setFilterSettings] = useState({ 
+    productTypes: 'T-Shirts, Hoodies, Accessories', 
+    availabilities: 'In Stock, Out of Stock', 
+    priceRanges: 'Rp 0 - Rp 650.000, Rp 650.000 - Rp 1.500.000, Rp 1.500.000+' 
+  });
   const [heroFormData, setHeroFormData] = useState({ imageUrl: '' });
   
   // Form states
@@ -859,7 +883,7 @@ function AdminDashboard() {
   const [editingNews, setEditingNews] = useState<NewsItem | null>(null);
   const [newsFormData, setNewsFormData] = useState({ date: '', title: '', excerpt: '', order: '0' });
 
-  const [aboutFormData, setAboutFormData] = useState({ paragraphs: '', imageUrl: '' });
+  const [aboutFormData, setAboutFormData] = useState({ paragraphs: '', imageUrl: '', articleUrl: '' });
 
   useEffect(() => {
     if (!isAdminAuthenticated) {
@@ -889,7 +913,8 @@ function AdminDashboard() {
         setAboutContent({ id: docSnap.id, ...data });
         setAboutFormData({ 
           paragraphs: data.paragraphs ? data.paragraphs.join('\n\n') : '',
-          imageUrl: data.imageUrl || ''
+          imageUrl: data.imageUrl || '',
+          articleUrl: data.articleUrl || ''
         });
       }
     });
@@ -897,6 +922,12 @@ function AdminDashboard() {
     const unsubSettings = onSnapshot(doc(db, 'settings', 'payment'), (docSnap) => {
       if (docSnap.exists()) {
         setPaymentSettings(docSnap.data() as any);
+      }
+    });
+
+    const unsubFilters = onSnapshot(doc(db, 'settings', 'filters'), (docSnap) => {
+      if (docSnap.exists()) {
+        setFilterSettings(docSnap.data() as any);
       }
     });
 
@@ -912,6 +943,7 @@ function AdminDashboard() {
       unsubNews();
       unsubAbout();
       unsubSettings();
+      unsubFilters();
       unsubHero();
     };
   }, [isAdminAuthenticated, navigate]);
@@ -1027,7 +1059,11 @@ function AdminDashboard() {
     e.preventDefault();
     try {
       const paragraphs = aboutFormData.paragraphs.split('\n\n').filter(p => p.trim() !== '');
-      await setDoc(doc(db, 'about', 'main'), { paragraphs, imageUrl: aboutFormData.imageUrl });
+      await setDoc(doc(db, 'about', 'main'), { 
+        paragraphs, 
+        imageUrl: aboutFormData.imageUrl,
+        articleUrl: aboutFormData.articleUrl
+      });
       alert('About content saved successfully');
     } catch (error: any) {
       console.error('Error saving about:', error);
@@ -1043,6 +1079,17 @@ function AdminDashboard() {
     } catch (error: any) {
       console.error('Error saving settings:', error);
       alert('Failed to save settings: ' + error.message);
+    }
+  };
+
+  const handleSaveFilters = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await setDoc(doc(db, 'settings', 'filters'), filterSettings);
+      alert('Filters saved successfully');
+    } catch (error: any) {
+      console.error('Error saving filters:', error);
+      alert('Failed to save filters: ' + error.message);
     }
   };
 
@@ -1106,6 +1153,12 @@ function AdminDashboard() {
           >
             Payment Settings
           </button>
+          <button 
+            onClick={() => setActiveTab('filters')}
+            className={`pb-4 text-[10px] uppercase tracking-widest transition-colors whitespace-nowrap ${activeTab === 'filters' ? 'border-b-2 border-[#1a1c1b] font-medium' : 'text-[#777777]'}`}
+          >
+            Catalog Filters
+          </button>
         </div>
 
         {activeTab === 'hero' ? (
@@ -1121,7 +1174,7 @@ function AdminDashboard() {
                   className="w-full border-b border-[#1a1c1b] py-2 focus:outline-none bg-transparent" 
                   placeholder="https://example.com/banner.png"
                 />
-                <p className="text-[10px] text-[#777777] mt-2">Leave empty to use the default N.NIMAL logo.</p>
+                <p className="text-[10px] text-[#777777] mt-2">Leave empty to use the default ENNIMAL INSIDE logo.</p>
                 {heroFormData.imageUrl && (
                   <div className="mt-4 p-4 bg-black inline-block w-full">
                     <img src={heroFormData.imageUrl} alt="Hero Preview" className="w-full h-auto object-contain" />
@@ -1360,12 +1413,22 @@ function AdminDashboard() {
                   placeholder="First paragraph...&#10;&#10;Second paragraph..."
                 />
               </div>
+              <div>
+                <label className="block text-[10px] uppercase tracking-widest text-[#777777] mb-2">Article URL (Optional)</label>
+                <input 
+                  type="url" 
+                  value={aboutFormData.articleUrl} 
+                  onChange={e => setAboutFormData({ ...aboutFormData, articleUrl: e.target.value })} 
+                  className="w-full border-b border-[#1a1c1b] py-2 focus:outline-none bg-transparent"
+                  placeholder="https://example.com/article"
+                />
+              </div>
               <button type="submit" className="w-full bg-[#1a1c1b] text-white py-4 text-[10px] uppercase tracking-widest hover:bg-black/80 transition-colors">
                 Save About Content
               </button>
             </form>
           </div>
-        ) : (
+        ) : activeTab === 'settings' ? (
           <div className="max-w-md">
             <h2 className="text-[12px] uppercase tracking-widest font-medium mb-8">Payment Methods</h2>
             <form onSubmit={handleSaveSettings} className="space-y-8">
@@ -1375,7 +1438,7 @@ function AdminDashboard() {
                   value={paymentSettings.bcaAccount} 
                   onChange={e => setPaymentSettings({...paymentSettings, bcaAccount: e.target.value})} 
                   className="w-full border-b border-[#1a1c1b] py-2 focus:outline-none bg-transparent resize-none h-24"
-                  placeholder="e.g. BCA 1234567890 a.n N.NIMAL"
+                  placeholder="e.g. BCA 1234567890 a.n ENNIMAL INSIDE"
                 />
               </div>
               <div>
@@ -1384,7 +1447,7 @@ function AdminDashboard() {
                   value={paymentSettings.mandiriAccount} 
                   onChange={e => setPaymentSettings({...paymentSettings, mandiriAccount: e.target.value})} 
                   className="w-full border-b border-[#1a1c1b] py-2 focus:outline-none bg-transparent resize-none h-24"
-                  placeholder="e.g. Mandiri 0987654321 a.n N.NIMAL"
+                  placeholder="e.g. Mandiri 0987654321 a.n ENNIMAL INSIDE"
                 />
               </div>
               <div>
@@ -1407,7 +1470,43 @@ function AdminDashboard() {
               </button>
             </form>
           </div>
-        )}
+        ) : activeTab === 'filters' ? (
+          <div className="max-w-md">
+            <h2 className="text-[12px] uppercase tracking-widest font-medium mb-8">Catalog Filters</h2>
+            <form onSubmit={handleSaveFilters} className="space-y-8">
+              <div>
+                <label className="block text-[10px] uppercase tracking-widest text-[#777777] mb-2">Product Types (comma separated)</label>
+                <textarea 
+                  value={filterSettings.productTypes} 
+                  onChange={e => setFilterSettings({...filterSettings, productTypes: e.target.value})} 
+                  className="w-full border-b border-[#1a1c1b] py-2 focus:outline-none bg-transparent resize-none h-24"
+                  placeholder="e.g. T-Shirts, Hoodies, Accessories"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] uppercase tracking-widest text-[#777777] mb-2">Availabilities (comma separated)</label>
+                <textarea 
+                  value={filterSettings.availabilities} 
+                  onChange={e => setFilterSettings({...filterSettings, availabilities: e.target.value})} 
+                  className="w-full border-b border-[#1a1c1b] py-2 focus:outline-none bg-transparent resize-none h-24"
+                  placeholder="e.g. In Stock, Out of Stock"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] uppercase tracking-widest text-[#777777] mb-2">Price Ranges (comma separated)</label>
+                <textarea 
+                  value={filterSettings.priceRanges} 
+                  onChange={e => setFilterSettings({...filterSettings, priceRanges: e.target.value})} 
+                  className="w-full border-b border-[#1a1c1b] py-2 focus:outline-none bg-transparent resize-none h-24"
+                  placeholder="e.g. Rp 0 - Rp 650.000, Rp 650.000 - Rp 1.500.000, Rp 1.500.000+"
+                />
+              </div>
+              <button type="submit" className="w-full bg-[#1a1c1b] text-white py-4 text-[10px] uppercase tracking-widest hover:bg-black/80 transition-colors">
+                Save Filters
+              </button>
+            </form>
+          </div>
+        ) : null}
       </div>
       <Footer />
     </div>

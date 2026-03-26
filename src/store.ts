@@ -29,6 +29,7 @@ export interface AboutContent {
   id: string;
   paragraphs: string[];
   imageUrl?: string;
+  articleUrl?: string;
 }
 
 export interface HeroContent {
